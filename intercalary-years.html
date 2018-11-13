@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>Intercalary years</title>
+    <meta name="viewport" content="width=device-width">
+    <style>
+      .wrapper {
+        width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .output {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      .output__year {
+        padding: 2px;
+        min-width: 80px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1>Високосные годы по Григорианскому календарю</h1>
+      <p>Введите интервал поиска:</p>
+      <label for="js-startYear">C:</label>
+      <input type="number" id="js-startYear" placeholder="1582">
+      <label for="js-endYear">По:</label>
+      <input type="number" id="js-endYear" placeholder="2400">
+      <button id="js-showIntercalaryYearsBtn">Вывести список</button>
+      <p id="js-msg"></p>
+      <div id="js-output" class="output"></div>
+    </div>
+  </body>
+  <script>
+    var startYear = document.getElementById('js-startYear');
+    var endYear = document.getElementById('js-endYear');
+    var showIntercalaryYearsBtn = document.getElementById('js-showIntercalaryYearsBtn');
+    var msg = document.getElementById('js-msg');
+    var output = document.getElementById('js-output');
+    var p;
+    
+    showIntercalaryYearsBtn.addEventListener('click', function() {
+      msg.innerHTML = '';
+      output.innerHTML = '';
+      if (startYear.value === '' || parseInt(startYear.value) >= parseInt(endYear.value)) {
+        msg.innerHTML = 'Введите корректные данные интервала поиска: значения полей "C:", "По:" не должны быть пустыми, значение поля "C:" должно быть меньше значения поля "По:".';
+        return null;
+      }
+      msg.innerHTML = 'Список високосных лет с ' + startYear.value + ' года по ' + endYear.value + ' год:';
+      for (var i = parseInt(startYear.value); i <= parseInt(endYear.value); i++) {
+        if (i % 4 === 0 && !(i % 100 === 0 && i % 400 !== 0)) {
+          p = document.createElement('p');
+          p.innerText = i;
+          p.className = 'output__year';  
+          output.appendChild(p);
+        }
+      }
+      if (output.childElementCount === 0) {
+        msg.innerHTML += " Високосные годы в указанный период отсутствуют."
+      }
+    });
+  </script>
+</html>
